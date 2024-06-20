@@ -8,11 +8,10 @@ app.use(cors());
 
 const cache = (duration) => {
     return (req, res, next) => {
-        let key = '__express__' + req.originalUrl || req.url;
+        let key = '__express__' + (req.originalUrl || req.url);
         let cachedBody = mcache.get(key);
         if (cachedBody) {
             res.send(cachedBody);
-            return;
         } else {
             res.sendResponse = res.send;
             res.send = (body) => {
@@ -33,14 +32,14 @@ app.get('/proxy', cache(30), (req, res) => {
         { url: url, headers: { 'X-Requested-With': 'XMLHttpRequest' } },
         (error, response, body) => {
             if (error) {
-                return res.status(500).send(error);
+                return res.status(500).send(error.message);
             }
             res.send(body);
         }
     );
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Використовуємо змінну середовища для порту
 app.listen(PORT, () => {
     console.log(`Proxy server is running on port ${PORT}`);
 });
