@@ -39,7 +39,7 @@ app.get('/proxy', cache(30), (req, res) => {
     );
 });
 
-const PORT = process.env.PORT || 3000; // Використовуємо змінну середовища для порту
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Proxy server is running on port ${PORT}`);
 });
